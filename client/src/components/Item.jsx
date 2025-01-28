@@ -41,7 +41,7 @@ const ItemDescription = ({itemDescription}) => {
 const ItemSeller = ({sellerUsername,sellerImagePath}) => {
     return (
     <div className="flex flex-none flex-grow justify-end items-end">
-        <h1 className=" mr-4 mb-4 text-xl">{sellerUsername}</h1>
+        <h1 className=" mr-4 mb-6 text-xl">{sellerUsername}</h1>
         <img className="mr-4 mb-4 rounded-full" src={sellerImagePath} alt="Seller user picture" loading="lazy" />
     </div>
     );
