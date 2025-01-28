@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => {
     return (
-    <div className="flex w-full bg-gray-100">
+    <div className="flex w-full bg-gray-100 shadow-gray-200 shadow-lg">
         <div className="flex ml-8 mt-8">
             <Logo />
         </div>
@@ -42,12 +42,13 @@ const SearchBar = () => {
         type="text"
         placeholder="Search..."
         className="
+        shadow-blue-200 shadow-lg
           min-w-128
           max-w-48
           px-4 py-2 rounded-lg text-lg border-2 border-gray-300 outline-none
-          focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+          focus:ring-2 focus:ring-offset-2 focus:ring-pink-200 focus:shadow-pink-200
           transition-all duration-300
-          hover:bg-gradient-to-br hover:from-white hover:via-pink-200 hover:to-blue-200
+          hover:bg-gradient-to-br hover:from-white hover:via-pink-200 hover:to-blue-200 hover:shadow-pink-200
           hover:text-black
         "
       />

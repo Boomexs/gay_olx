@@ -2,7 +2,7 @@ import React from 'react';
 
 const Item = ({itemImagePath,itemName,itemDescription,itemSellerUsername,itemSellerImagePath}) => {
     return ( 
-    <div className="m-2 flex flex-row border-2 border-gray-500 rounded-4xl overflow-hidden max-h-64">
+    <div className="m-2 flex flex-row shadow-blue-200 hover:shadow-pink-200 shadow-lg rounded-4xl overflow-hidden max-h-64">
         <div className="rounded-4xl overflow-clip mr-4 flex-none aspect-square">
             <ItemImage url={itemImagePath}/>
         </div>
