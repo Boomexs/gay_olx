@@ -14,4 +14,4 @@ class Feedback(models.Model):
         ]
     )
     text = models.TextField()
-    image = models.ImageField(upload_to='feedback_images/', blank=True)
+    image = models.ImageField(upload_to='media/', blank=True)

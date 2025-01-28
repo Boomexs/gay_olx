@@ -12,7 +12,7 @@ class Product(models.Model):
         ]
     )
     description = models.TextField()
-    image = models.ImageField(upload_to='product_images/')
+    image = models.ImageField(upload_to='media/')
     seller = models.ForeignKey('Users.User', on_delete=models.CASCADE)
     hashtags = models.ManyToManyField('Hashtags.Hashtag')
 
