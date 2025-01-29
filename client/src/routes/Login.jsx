@@ -66,7 +66,8 @@ const LoginComponent = () => {
     console.log(credentials);
     try {
       const response = await axios.post(loginurl,credentials);
-      console.log('Token: ', response.data);
+      alert(response.data.message);
+      setTokenData(response.data.Authorization);
     }
     catch (error) {
       console.log('error getting token: ', error);
@@ -106,11 +107,31 @@ const RegisterComponent = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const setTokenData = useUserStore((state) => state.setTokenData)
+
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-    console.log('Register attempt: ' + username + ' ' + email + ' ' + password);
-
+    console.log('Register attempt: ' + username + ' ' + password);
+    getToken();
   };
+  const getToken = async () => {
+    const loginurl = "http://127.0.0.1:8000/api/register/"
+    const credentials = {
+      username: username,
+      password: password
+    };
+    console.log(credentials);
+    try {
+      const response = await axios.post(loginurl,credentials);
+      console.log(response.data);
+      // alert(response.data.message);
+      setTokenData(response.data.Authorization);
+    }
+    catch (error) {
+      console.log('error getting token: ', error);
+      alert(error.message);
+    }
+  }
 
     return (
       <form onSubmit={handleSubmit}>
