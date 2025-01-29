@@ -17,7 +17,7 @@ const Item = ({itemImagePath,itemName,itemDescription,itemSellerUsername,itemSel
 
 const ItemImage = ({url}) => {
     return (
-        <img className="rounded-4xl overflow-clip flex-none aspect-square" src={url} alt="Item listing picture" loading="lazy" />
+        <img className="rounded-4xl overflow-clip flex-none aspect-square w-64 h-64" src={url} alt="Item listing picture" loading="lazy" />
     );
 };
 
@@ -42,7 +42,7 @@ const ItemSeller = ({sellerUsername,sellerImagePath}) => {
     return (
     <div className="flex flex-none flex-grow justify-end items-end">
         <h1 className=" mr-4 mb-6 text-xl">{sellerUsername}</h1>
-        <img className="mr-4 mb-4 rounded-full" src={sellerImagePath} alt="Seller user picture" loading="lazy" />
+        <img className="mr-4 mb-4 rounded-full w-16 h-16" src={sellerImagePath ? sellerImagePath : "https://placehold.co/64"} alt="<image>" loading="lazy" />
     </div>
     );
 };

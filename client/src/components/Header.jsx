@@ -1,10 +1,16 @@
 import React from 'react';
 import useUserStore from '../useUserStore';
 
-const Header = () => {
+
+const Header = ({search,setSearch}) => {
     const firstname = useUserStore((state) => state.firstname)
     const lastname = useUserStore((state) => state.lastname)
     const pfp = useUserStore((state) => state.pfp)
+
+    const startSearch = (event) => {
+        setSearch(event.target.value);
+        // console.log(event.target.value)
+    }
 
     return (
     <div className="flex w-full bg-gray-100 shadow-gray-200 shadow-lg">
@@ -13,7 +19,7 @@ const Header = () => {
         </div>
         <div className="flex flex-row mr-8 pt-4 pb-4 w-full">
             <div className="flex flex-grow mb-6 justify-center">
-                <SearchBar />
+                <SearchBar search={search} startSearch={startSearch}/>
             </div>
             <User username={firstname + ' ' + lastname} userImagePath={pfp} />
         </div>
@@ -42,12 +48,14 @@ const User = ({username,userImagePath}) => {
     );
 };
 
-const SearchBar = () => {
+const SearchBar = ({search,startSearch}) => {
     return (
         <div className="flex justify-center items-center mt-10">
       <input
         type="text"
         placeholder="Search..."
+        value={search}
+        onChange={startSearch}
         className="
         shadow-blue-200 shadow-lg
           min-w-128
