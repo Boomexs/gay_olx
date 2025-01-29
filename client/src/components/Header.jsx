@@ -1,6 +1,11 @@
 import React from 'react';
+import useUserStore from '../useUserStore';
 
 const Header = () => {
+    const firstname = useUserStore((state) => state.firstname)
+    const lastname = useUserStore((state) => state.lastname)
+    const pfp = useUserStore((state) => state.pfp)
+
     return (
     <div className="flex w-full bg-gray-100 shadow-gray-200 shadow-lg">
         <div className="flex ml-8 mt-8">
@@ -10,7 +15,7 @@ const Header = () => {
             <div className="flex flex-grow mb-6 justify-center">
                 <SearchBar />
             </div>
-            <User username="firstname + lastname" userImagePath={"https://placehold.co/64"} />
+            <User username={firstname + ' ' + lastname} userImagePath={pfp} />
         </div>
     </div>
     );
@@ -28,10 +33,11 @@ const Logo = () => {
 }
 
 const User = ({username,userImagePath}) => {
+    console.log('header', userImagePath)
     return (
     <div className="flex flex-none justify-end items-start">
         <h1 className=" mr-4 mt-2 text-xl">{username}</h1>
-        <img className="mr-4 rounded-full" src={userImagePath} alt="Seller user picture" loading="lazy" />
+        <img className="mr-4 w-16 h-16 rounded-full" src={userImagePath} alt="Seller user picture" loading="lazy" />
     </div>
     );
 };

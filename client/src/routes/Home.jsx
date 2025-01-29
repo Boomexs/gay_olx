@@ -4,8 +4,8 @@ import Header from '../components/Header'
 import Filters from '../components/Filters'
 
 const Home = () => {
-
     
+
     return (
     <div>
         <Header />
