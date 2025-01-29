@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.db import IntegrityError, transaction
 from django.contrib.auth import authenticate
 from Feedback.models import Feedback
-from .serializers import UserProfileSerializer
+from .serializers import UserProfileSerializer, UserCreationSerializer
 
 import json
 
@@ -88,7 +88,7 @@ class RegisterView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        serializer = UserProfileSerializer(data=request.data)
+        serializer = UserCreationSerializer(data=request.data)
         if serializer.is_valid():
             user = User.objects.create_user(username=serializer.validated_data["username"], password=serializer.validated_data["password"])
 

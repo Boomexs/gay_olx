@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Products',
     'Hashtags',
     'Feedback',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -56,6 +57,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+CORS_ALLOW_ALL_ORIGINS = True  # Allows requests from any domain
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -64,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Add this middleware
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'GayOLX.urls'

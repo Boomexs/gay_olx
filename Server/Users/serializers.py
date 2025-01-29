@@ -10,3 +10,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
         if "@" not in value:
             raise serializers.ValidationError("Invalid email format")
         return value
+
+class UserCreationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'password']
