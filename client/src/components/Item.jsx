@@ -2,11 +2,11 @@ import React from 'react';
 
 const Item = ({itemImagePath,itemName,itemDescription,itemSellerUsername,itemSellerImagePath}) => {
     return ( 
-    <div className="m-2 flex flex-row shadow-blue-200 hover:shadow-pink-200 shadow-lg rounded-4xl overflow-hidden max-h-64">
+    <div className="m-2 flex flex-row shadow-blue-200 hover:shadow-pink-200 shadow-lg rounded-4xl overflow-hidden max-w-512 bg-gray-100">
         <div className="rounded-4xl overflow-clip mr-4 flex-none aspect-square">
             <ItemImage url={itemImagePath}/>
         </div>
-        <div className="flex flex-col max-h-64 flex-grow">
+        <div className="flex flex-col flex-grow">
             <ItemName itemName={itemName}/>
             <ItemDescription itemDescription={itemDescription}/>
             <ItemSeller sellerUsername={itemSellerUsername} sellerImagePath={itemSellerImagePath} />
@@ -17,7 +17,7 @@ const Item = ({itemImagePath,itemName,itemDescription,itemSellerUsername,itemSel
 
 const ItemImage = ({url}) => {
     return (
-        <img src={url} alt="Item listing picture" loading="lazy" />
+        <img className="rounded-4xl overflow-clip flex-none aspect-square" src={url} alt="Item listing picture" loading="lazy" />
     );
 };
 
@@ -31,7 +31,7 @@ const ItemName = ({itemName}) => {
 const ItemDescription = ({itemDescription}) => {
     return(
         <div className="overflow-hidden">
-            <p className="text-l pt-4 ml-8 text-gray-700">
+            <p className="text-l pt-4 ml-8 mr-4 text-gray-700">
                 {itemDescription}
             </p>
         </div>

@@ -19,13 +19,14 @@ const Header = () => {
 const Logo = () => {
     return (
     <div className="flex flex-col -mt-4">
-        <div className="whitespace-nowrap text-8xl font-bold bg-clip-text text-transparent bg-[linear-gradient(to_bottom,_#ff0000_25%,_#ff8c00_25%,_#ff8c00_38%,_#ffd700_38%,_#ffd700_55%,_#008000_55%,_#008000_71%,_#0000ff_71%,_#0000ff_84%,_#800080_84%,_#800080_100%)]">
+        <a href="/" className="whitespace-nowrap text-8xl font-bold bg-clip-text text-transparent bg-[linear-gradient(to_bottom,_#ff0000_25%,_#ff8c00_25%,_#ff8c00_38%,_#ffd700_38%,_#ffd700_55%,_#008000_55%,_#008000_71%,_#0000ff_71%,_#0000ff_84%,_#800080_84%,_#800080_100%)]">
             GAY OŁX
-        </div>
+        </a>
     </div>
     
 );
 }
+
 const User = ({username,userImagePath}) => {
     return (
     <div className="flex flex-none justify-end items-start">
