@@ -12,6 +12,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductUserSerializer(serializers.ModelSerializer):
     seller = UserProfileSerializer(read_only=True)
+
+    # likes_count = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Product
         fields = ["id", "seller", "name", "price", "description", "image"]

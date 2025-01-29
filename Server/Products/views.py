@@ -55,6 +55,7 @@ class ProductPublicGet(APIView):
 
         phrase = request.GET.get('phrase')
         if phrase :
+            print(phrase)
             words = phrase.split(' ')
             hashtags = [word.upper()[1:] for word in words if word.startswith('#')]
             print(hashtags)
@@ -63,6 +64,9 @@ class ProductPublicGet(APIView):
             products = Product.objects.filter(hashtags__in=valid_hashtags) \
                 .annotate(num_hashtags=Count('hashtags', distinct=True)) \
                 .filter(num_hashtags=len(valid_hashtags))
+
+
+
             serializer = ProductUserSerializer(products, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
