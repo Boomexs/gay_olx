@@ -5,9 +5,10 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Product
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, ProductUserSerializer
 from Hashtags.models import Hashtag
 from Users.models import User
+from Users.serializers import UserProfileSerializer
 from django.db.models import Count
 import base64
 import json
@@ -43,13 +44,13 @@ class ProductPublicGet(APIView):
 
         if p_id := request.GET.get('productId'):
             product = Product.objects.get(pk=p_id)
-            serializer = ProductSerializer(product)
+            serializer = ProductUserSerializer(product)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         if u_id := request.GET.get('sellerId'):
             seller = User.objects.get(pk=u_id)
             products = Product.objects.filter(seller=seller)
-            serializer = ProductSerializer(products, many=True)
+            serializer = ProductUserSerializer(products, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         phrase = request.GET.get('phrase')
@@ -62,7 +63,7 @@ class ProductPublicGet(APIView):
             products = Product.objects.filter(hashtags__in=valid_hashtags) \
                 .annotate(num_hashtags=Count('hashtags', distinct=True)) \
                 .filter(num_hashtags=len(valid_hashtags))
-            serializer = ProductSerializer(products, many=True)
+            serializer = ProductUserSerializer(products, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
