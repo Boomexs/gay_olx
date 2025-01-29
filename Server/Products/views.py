@@ -67,9 +67,9 @@ class ProductPublicGet(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
-    # return Response(ProductSerializer(products, many=True).data)
-        return Response({}, status=status.HTTP_200_OK)
+        products = Product.objects.all()
+        serializer = ProductUserSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ProductPrivatePostView(APIView):
