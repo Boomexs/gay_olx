@@ -18,12 +18,15 @@ const Home = () => {
 
     const getItems = async () => {
         try{
-            const respone = await axios.get(searchurl,{phrase: search});
+            const req = {
+                phrase: search
+            }
+            const respone = await axios.get(searchurl,{ params: req });
             if(Array.isArray(respone.data)){ 
-                setItems(respone.data)
+                setItems(respone.data);
             }
             else{
-
+                setItems([]);
             }
         } catch (error) {
             console.log('get items error: ', error);
@@ -32,10 +35,10 @@ const Home = () => {
 
     useEffect(()=>{
         console.log('search: ',search)
-        if(search.length == 0){
+        if(search.length <= 2){
             getItems();
         }
-        if(search.length > 3){
+        if(search.length > 2){
             getItems();
         }
         console.log(items)
