@@ -7,3 +7,8 @@ class Hashtag(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Automatically convert the text field value to uppercase
+        self.name = self.name.upper()
+        super().save(*args, **kwargs)

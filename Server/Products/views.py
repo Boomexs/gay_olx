@@ -1,37 +1,31 @@
+from django.http import QueryDict
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Product
 from .serializers import ProductSerializer
+from Hashtags.models import Hashtag
+from Users.models import User
+from django.db.models import Count
+import base64
 import json
 
+class ProductPublicGet(APIView):
 
-class ProductGeneralView(APIView):
-    permission_classes = []
-
+    permission_classes = [AllowAny]
     def get(self, request):
-
-        # body = json.loads(request.body)
-        # print(body)
         """
         Fetches products based on the provided filters. If a productId is specified, only one product will be returned.
         Filters can include:
-            - supplierName
             - supplierId
-            - hashtagName
-            - hashtagId
+            - hashtagNames
             - phrase
-            - productId (returns a single product if specified)
 
         Query parameters:
-            - offset (optional)
-            - amount (optional, 25 by default)
-            - supplierName (optional)
-            - supplierId (optional)
+            - sellerId (optional)
             - hashtagNames (optional)
-            - hashtagIds (optional)
             - phrase (optional)
             - productId (optional, returns single product if provided)
 
@@ -47,13 +41,41 @@ class ProductGeneralView(APIView):
             ]
         """
 
-        products = Product.objects.all()
+        if p_id := request.GET.get('productId'):
+            product = Product.objects.get(pk=p_id)
+            serializer = ProductSerializer(product)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response(ProductSerializer(products, many=True).data)
-        pass
+        if u_id := request.GET.get('sellerId'):
+            seller = User.objects.get(pk=u_id)
+            products = Product.objects.filter(seller=seller)
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        phrase = request.GET.get('phrase')
+        if phrase :
+            words = phrase.split(' ')
+            hashtags = [word.upper()[1:] for word in words if word.startswith('#')]
+            print(hashtags)
+            valid_hashtags = Hashtag.objects.filter(name__in=hashtags)
+            print(valid_hashtags)
+            products = Product.objects.filter(hashtags__in=valid_hashtags) \
+                .annotate(num_hashtags=Count('hashtags', distinct=True)) \
+                .filter(num_hashtags=len(valid_hashtags))
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+    # return Response(ProductSerializer(products, many=True).data)
+        return Response({}, status=status.HTTP_200_OK)
+
+
+class ProductPrivatePostView(APIView):
+    permission_classes = [IsAuthenticated]
+
 
     def post(self, request):
-
         """
         Adds a new product for suppliers. The request must include the token, product details, and hashtags.
 
@@ -71,13 +93,43 @@ class ProductGeneralView(APIView):
                 "message": "Product added successfully."
             }
         """
-        pass
+        print(request.data)
+        user = request.user
+        if not user.is_authenticated:
+            return Response({"message": "User is not authenticated."}, status=status.HTTP_401_UNAUTHORIZED)
 
+        data :QueryDict = request.data
 
-class ProductSpescificView(APIView):
+        hashtag_names = data.getlist("hashtags", [])
+
+        hashtags = []
+        invalid_hashtags = []
+        for name in hashtag_names:
+            try:
+                hashtag = Hashtag.objects.get(name=name.upper())
+                hashtags.append(hashtag)
+            except Hashtag.DoesNotExist:
+                invalid_hashtags.append(name)
+
+        # Create product serializer
+        serializer = ProductSerializer(data=request.data)
+
+        # Ensure the serializer is valid
+        if serializer.is_valid():
+            # Set the seller field after validation
+            product = serializer.save(seller=user)
+
+            # Assign the valid hashtags to the product
+            product.hashtags.set(hashtags)
+
+            return Response({"message": f"Product {product.name} added successfully."}, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ProductConcreteView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def put(self, request, id):
+    def put(self, request, _id):
         """
         Updates an existing product for suppliers. The request must include the token and updated product details.
 
@@ -94,9 +146,9 @@ class ProductSpescificView(APIView):
                 "message": "Product updated successfully."
             }
         """
-        pass
+        return Response({}, status=status.HTTP_403_FORBIDDEN)
 
-    def delete(self, request, id):
+    def delete(self, request, _id):
         """
         Deletes a product for suppliers. The request must include the token to authenticate the supplier.
 
@@ -110,4 +162,17 @@ class ProductSpescificView(APIView):
                 "message": "Product deleted successfully."
             }
         """
-        pass
+
+        if not _id:
+            return Response({"message": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        product = Product.objects.get(pk=_id)
+
+        if not product:
+            return Response({"message": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if product.seller != request.user and not request.user.is_superuser:
+            return Response({"message": "No access"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        product.delete()
+        return Response({"message": "Product deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
