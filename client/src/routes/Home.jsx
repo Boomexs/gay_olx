@@ -4,11 +4,13 @@ import Header from '../components/Header'
 import Filters from '../components/Filters'
 
 const Home = () => {
+
+    
     return (
     <div>
         <Header />
         <div className="flex justify-between h-full">
-            <Filters />
+            {/* <Filters /> */}
             <div className="">
                 <Item 
                 itemImagePath={"https://placehold.co/256"}
