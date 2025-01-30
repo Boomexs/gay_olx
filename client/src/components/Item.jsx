@@ -1,16 +1,28 @@
 import React from 'react';
+import Feedback from './Feedback';
+import {useState} from 'react'
 
-const Item = ({itemImagePath,itemName,itemDescription,itemSellerUsername,itemSellerImagePath}) => {
+const Item = ({itemImagePath,itemName,itemDescription,itemSellerUsername,itemSellerImagePath, id, itemPrice}) => {
+    const [show, setShow] = useState(false);
+
+    const handleClick = () => {
+        console.log('switching feedback')
+        setShow(!show);
+    };
+
     return ( 
-    <div className="m-2 flex flex-row shadow-blue-200 hover:shadow-pink-200 shadow-lg rounded-4xl overflow-hidden max-w-512 bg-gray-100">
-        <div className="rounded-4xl overflow-clip mr-4 flex-none aspect-square">
-            <ItemImage url={itemImagePath}/>
+    <div>
+        <div onClick={handleClick} className="m-2 flex flex-row shadow-blue-200 hover:shadow-pink-200 shadow-lg rounded-4xl overflow-hidden max-w-512 bg-gray-100">
+            <div className="rounded-4xl overflow-clip mr-4 flex-none aspect-square">
+                <ItemImage url={itemImagePath}/>
+            </div>
+            <div className="flex flex-col flex-grow">
+                <ItemName itemName={itemName} itemPrice={itemPrice}/>
+                <ItemDescription itemDescription={itemDescription}/>
+                <ItemSeller sellerUsername={itemSellerUsername} sellerImagePath={itemSellerImagePath} />
+            </div>
         </div>
-        <div className="flex flex-col flex-grow">
-            <ItemName itemName={itemName}/>
-            <ItemDescription itemDescription={itemDescription}/>
-            <ItemSeller sellerUsername={itemSellerUsername} sellerImagePath={itemSellerImagePath} />
-        </div>
+        {show ? <Feedback id={id} show={show}/> : null }
     </div>
     );
 };
@@ -21,10 +33,10 @@ const ItemImage = ({url}) => {
     );
 };
 
-const ItemName = ({itemName}) => {
+const ItemName = ({itemName, itemPrice}) => {
     return (
         <div className="self-start mt-4 ml-4">
-            <h1 className="text-3xl text-black">{itemName}</h1>
+            <h1 className="text-3xl text-black">{itemName} - {itemPrice}$</h1>
         </div>
     );
 };

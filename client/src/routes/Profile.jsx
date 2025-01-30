@@ -2,6 +2,7 @@ import { React, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import Header from "../components/Header"
 import Item from "../components/Item"
+import useUserStore from '../useUserStore';
 
 const Profile = () => {
     return (
@@ -10,34 +11,21 @@ const Profile = () => {
         <div className="flex flex-col items-center justify-center">
             <ProfileCard />
             <p className="my-4 text-2xl text-center text-blue-300 shadow-lg shadow-blue-200 border-0 w-full">Inventory</p>
-            <Item 
-                itemImagePath={"https://placehold.co/256"}
-                itemName={"Choker"}
-                itemDescription={"This femboy choker is a bold yet delicate accessory designed to complement and enhance any outfit with a touch of elegance and edge. Crafted with high-quality materials, it features a sleek, adjustable band that comfortably fits around the neck. The design often incorporates playful, soft details like subtle charms, rhinestones, or velvet, giving it a mix of both androgynous and feminine flair. Perfect for those who embrace their unique style, it adds a touch of confident, alternative fashion to any look, whether for everyday wear or special occasions."}
-                itemSellerUsername={"Seller username"}
-                itemSellerImagePath={"https://placehold.co/48"} />
-            <Item 
-                itemImagePath={"https://placehold.co/256"}
-                itemName={"Choker"}
-                itemDescription={"This femboy choker is a bold yet delicate accessory designed to complement and enhance any outfit with a touch of elegance and edge. Crafted with high-quality materials, it features a sleek, adjustable band that comfortably fits around the neck. The design often incorporates playful, soft details like subtle charms, rhinestones, or velvet, giving it a mix of both androgynous and feminine flair. Perfect for those who embrace their unique style, it adds a touch of confident, alternative fashion to any look, whether for everyday wear or special occasions."}
-                itemSellerUsername={"Seller username"}
-                itemSellerImagePath={"https://placehold.co/48"} />
         </div>
     </div>
     );
 };
 
 const ProfileCard = () => {
-    const { id } = useParams();
     
     const user = {    
-        firstname: 'Raf',
-        lastname: 'isto',
-        email: 'bob@mail',
-        pfp: 'https://placehold.co/64',
-        is_verified: true,
-        bio: 'Welcome to Rafisto, the ultimate destination for men who embrace their feminine side without compromise. Curated with style and confidence in mind, Rafisto offers a bold collection of outfits designed specifically for femboys who want to express their true selves. From chic blouses and form-fitting skirts to tailored dresses and accessories that sparkle, Rafisto’s collection is all about empowering men to look and feel their best—whether you\'re stepping out for a night on the town or lounging in style. We believe fashion knows no boundaries, and our mission is to break free from traditional gender norms while celebrating the unique beauty in all expressions. With high-quality fabrics, versatile styles, and a keen eye for modern trends, Rafisto is here to help you embrace the feminine side of fashion in a way that feels authentic and powerful.',
-        pronouns: 'nick/her'
+        firstname: useUserStore((state) => state.firstname),
+        lastname: useUserStore((state) => state.lastname),
+        email: useUserStore((state) => state.email),
+        pfp: useUserStore((state) => state.pfp),
+        is_verified: useUserStore((state) => state.is_verified),
+        bio: useUserStore((state) => state.bio),
+        pronouns: useUserStore((state) => state.pronouns)
     }
 
     return (
@@ -51,7 +39,7 @@ const ProfileCard = () => {
 const User = ({username,userImagePath,pronouns,isVerified}) => {
     return (
     <div className="flex flex-none justify-start items-start">
-        <img className="m-4 rounded-full" src={userImagePath} alt="Seller user picture" loading="lazy" />
+        <img className="w-32 h-32 m-4 rounded-full" src={userImagePath} alt="Seller user picture" loading="lazy" />
         <div>
             <div className="flex mt-4">
                 <h1 className="text-xl">{username}</h1>

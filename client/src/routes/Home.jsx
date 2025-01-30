@@ -2,10 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 import Item from '../components/Item'
 import Header from '../components/Header'
-import Filters from '../components/Filters'
+import Feedback from '../components/Feedback'
 import { useEffect } from 'react';
 import axios from 'axios'
-import useUserStore from '../useUserStore';
 
 const Home = () => {
 
@@ -53,16 +52,18 @@ const Home = () => {
                 {items.map((item) => (
                     <Item 
                     key={item.id}
+                    id={item.id}
                     itemImagePath={"http://127.0.0.1:8000" + item.image}
                     itemName={item.name}
                     itemDescription={item.description}
                     itemSellerUsername={item.seller.first_name + ' ' + item.seller.last_name}
                     itemSellerImagePath={"http://127.0.0.1:8000" + item.seller.pfp}
+                    itemPrice={item.price}
                     />
                 ))}
             </div>
             <div className="flex flex-col w-128 ml-auto max-h-256 shadow-xl shadow-pink-200">
-                <div className="h-20" />
+                <div className="h-60" />
                 <img src="ad.png" className="animate-bounce"/>
                 <p className="p-2 text-md text-center">
                     Hot men in your area want to meet you

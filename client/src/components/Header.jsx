@@ -41,10 +41,11 @@ const Logo = () => {
 const User = ({username,userImagePath}) => {
     console.log('header', userImagePath)
     return (
-    <div className="flex flex-none justify-end items-start">
+
+    <a href="/login" className="flex flex-none justify-end items-start">
         <h1 className=" mr-4 mt-2 text-xl">{username}</h1>
         <img className="mr-4 w-16 h-16 rounded-full" src={userImagePath} alt="Seller user picture" loading="lazy" />
-    </div>
+    </a>
     );
 };
 
@@ -67,6 +68,9 @@ const SearchBar = ({search,startSearch}) => {
           hover:text-black
         "
       />
+      <a className="ml-4" href="/favorites">
+        <span className="w-[48px] pb-[4px] text-center table text-5xl rounded-full bg-pink-400 text-white"> &#9733;</span>
+      </a>
     </div>
     );
 };
