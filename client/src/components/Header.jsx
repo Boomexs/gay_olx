@@ -69,7 +69,7 @@ const SearchBar = ({search,startSearch}) => {
         "
       />
       <a className="ml-4" href="/favorites">
-        <span className="w-[48px] pb-[4px] text-center table text-5xl rounded-full bg-pink-400 text-white"> &#9733;</span>
+        <span className="w-[48px] pb-[4px] shadow-md shadow-blue-200 text-center table text-5xl rounded-full hover:bg-gradient-to-br hover:from-white hover:via-pink-200 hover:to-blue-200 hover:shadow-pink-200 text-blue-400 hover:text-white"> &#9733;</span>
       </a>
     </div>
     );
