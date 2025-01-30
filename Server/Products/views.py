@@ -47,8 +47,13 @@ class ProductPublicGet(APIView):
             serializer = ProductUserSerializer(product)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        if u_id := request.GET.get('sellerId'):
-            seller = User.objects.get(pk=u_id)
+        if request.GET.get('inventory'):
+            seller = request.user
+            print("valid req for item sold")
+            if not seller.is_authenticated:
+                print("skill issue")
+                return Response({'error': 'You must be logged in'}, status=status.HTTP_400_BAD_REQUEST)
+
             products = Product.objects.filter(seller=seller)
             serializer = ProductUserSerializer(products, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)

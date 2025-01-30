@@ -4,19 +4,24 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_2
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from Products.serializers import ProductUserSerializer
+from Products.models import Product
+
 
 # Create your views here.
 class FavouritesView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        if id := request.data.get('productId', None):
-            if id in request.user.favourites.all():
+        if id := request.data.get('productId'):
+            product = Product.objects.get(id=id)
+            if product in request.user.favourites.all():
+                print("uwu")
                 request.user.favourites.remove(id)
-                return Response(status=HTTP_201_CREATED)
+                return Response({"messege": "item removed from the favorites"}, status=HTTP_204_NO_CONTENT)
             else:
+                print("")
                 request.user.favourites.add(id)
-                return Response({"messege": "Item removed from favoprites"},status=HTTP_204_NO_CONTENT)
+                return Response({"messege": "Item added to favoprites"},status=HTTP_201_CREATED)
         else:
             return Response({"messege": "skill issue"}, status=HTTP_400_BAD_REQUEST)
 

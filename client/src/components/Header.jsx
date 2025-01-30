@@ -52,12 +52,12 @@ const User = ({username,userImagePath}) => {
 const SearchBar = ({search,startSearch}) => {
     return (
         <div className="flex justify-center items-center mt-10">
-      <input
-        type="text"
-        placeholder="Search..."
-        value={search}
-        onChange={startSearch}
-        className="
+            <input
+                type="text"
+                placeholder="Search..."
+                value={search}
+                onChange={startSearch}
+                className="
         shadow-blue-200 shadow-lg
           min-w-128
           max-w-48
@@ -67,11 +67,16 @@ const SearchBar = ({search,startSearch}) => {
           hover:bg-gradient-to-br hover:from-white hover:via-pink-200 hover:to-blue-200 hover:shadow-pink-200
           hover:text-black
         "
-      />
-      <a className="ml-4" href="/favorites">
-        <span className="w-[48px] pb-[4px] shadow-md shadow-blue-200 text-center table text-5xl rounded-full hover:bg-gradient-to-br hover:from-white hover:via-pink-200 hover:to-blue-200 hover:shadow-pink-200 text-blue-400 hover:text-white"> &#9733;</span>
-      </a>
-    </div>
+            />
+            <a className="ml-4" href="/favorites">
+                <span
+                    className="w-[48px] pb-[4px] shadow-md shadow-blue-200 text-center table text-5xl rounded-full hover:bg-gradient-to-br hover:from-white hover:via-pink-200 hover:to-blue-200 hover:shadow-pink-200 text-blue-400 hover:text-white"> &#9733;</span>
+            </a>
+            <a className="ml-4" href="/profile">
+                <span
+                    className="w-[48px] pb-[4px] shadow-md shadow-blue-200 text-center table text-3xl rounded-full hover:bg-gradient-to-br hover:from-white hover:via-pink-200 hover:to-blue-200 hover:shadow-pink-200 text-blue-400 hover:text-white"> &#128100;</span>
+            </a>
+        </div>
     );
 };
 

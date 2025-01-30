@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Header from "../components/Header"
 import Item from "../components/Item"
 import useUserStore from '../useUserStore';
+import Inventory from '../components/Inventory.jsx'
 
 const Profile = () => {
     return (
@@ -11,6 +12,7 @@ const Profile = () => {
         <div className="flex flex-col items-center justify-center">
             <ProfileCard />
             <p className="my-4 text-2xl text-center text-blue-300 shadow-lg shadow-blue-200 border-0 w-full">Inventory</p>
+            <Inventory />
         </div>
     </div>
     );
